@@ -310,15 +310,15 @@ const float MIN_SCALE = 1.0f;
 {
     
     // one tap add scale 1.2 times
-    _scale = _scale*1.2;
-    
-    if (_scale>_pdfView.maxScaleFactor/_fixScaleFactor){
-        _scale = _pdfView.minScaleFactor/_fixScaleFactor;
-    }
-    
-    _pdfView.scaleFactor = _scale*_fixScaleFactor;
-    
-    [self setNeedsDisplay];
+    // _scale = _scale*1.2;
+    // 
+    // if (_scale>_pdfView.maxScaleFactor/_fixScaleFactor){
+    //     _scale = _pdfView.minScaleFactor/_fixScaleFactor;
+    // }
+    // 
+    // _pdfView.scaleFactor = _scale*_fixScaleFactor;
+    // 
+    // [self setNeedsDisplay];
     
 }
 
@@ -352,7 +352,7 @@ const float MIN_SCALE = 1.0f;
  *  @param recognizer
  */
 -(void)handlePinch:(UIPinchGestureRecognizer *)sender{
-    [self onScaleChanged:Nil];
+    // [self onScaleChanged:Nil];
 }
 
 /**
