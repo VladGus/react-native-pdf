@@ -207,10 +207,10 @@ export default class PdfView extends Component {
     _renderSeparator = () => (
         <View style={this.props.horizontal ? {
             width: this.props.spacing * this.state.scale,
-            backgroundColor: 'transparent'
+            backgroundColor: '#bfbfbf'
         } : {
             height: this.props.spacing * this.state.scale,
-            backgroundColor: 'transparent'
+            backgroundColor: '#bfbfbf'
         }}/>
     );
 
@@ -222,33 +222,33 @@ export default class PdfView extends Component {
 
     _onItemDoubleTap = (index) => {
 
-        if (this.state.scale >= MAX_SCALE) {
-            this._onScaleChanged({
-                scale: 1 / this.state.scale,
-                pageX: this.state.contentContainerSize.width / 2,
-                pageY: this.state.contentContainerSize.height / 2
-            });
-        } else {
-            this._onScaleChanged({
-                scale: 1.2,
-                pageX: this.state.contentContainerSize.width / 2,
-                pageY: this.state.contentContainerSize.height / 2
-            });
-        }
+        // if (this.state.scale >= MAX_SCALE) {
+        //     this._onScaleChanged({
+        //         scale: 1 / this.state.scale,
+        //         pageX: this.state.contentContainerSize.width / 2,
+        //         pageY: this.state.contentContainerSize.height / 2
+        //     });
+        // } else {
+        //     this._onScaleChanged({
+        //         scale: 1.2,
+        //         pageX: this.state.contentContainerSize.width / 2,
+        //         pageY: this.state.contentContainerSize.height / 2
+        //     });
+        // }
 
     };
 
     _onScaleChanged = (pinchInfo) => {
 
-        let newScale = pinchInfo.scale * this.state.scale;
-        newScale = newScale > MAX_SCALE ? MAX_SCALE : newScale;
-        newScale = newScale < 1 ? 1 : newScale;
-        let newContentOffset = {
-            x: (this.state.contentOffset.x + pinchInfo.pageX) * (newScale / this.state.scale) - pinchInfo.pageX,
-            y: (this.state.contentOffset.y + pinchInfo.pageY) * (newScale / this.state.scale) - pinchInfo.pageY
-        }
-        this.setState({scale: newScale, newContentOffset: newContentOffset});
-        this.props.onScaleChanged(newScale);
+        // let newScale = pinchInfo.scale * this.state.scale;
+        // newScale = newScale > MAX_SCALE ? MAX_SCALE : newScale;
+        // newScale = newScale < 1 ? 1 : newScale;
+        // let newContentOffset = {
+        //     x: (this.state.contentOffset.x + pinchInfo.pageX) * (newScale / this.state.scale) - pinchInfo.pageX,
+        //     y: (this.state.contentOffset.y + pinchInfo.pageY) * (newScale / this.state.scale) - pinchInfo.pageY
+        // }
+        // this.setState({scale: newScale, newContentOffset: newContentOffset});
+        // this.props.onScaleChanged(newScale);
 
     };
 
@@ -334,15 +334,16 @@ export default class PdfView extends Component {
                 windowSize={11}
                 getItemLayout={this._getItemLayout}
                 maxToRenderPerBatch={1}
-                renderScrollComponent={(props) => <ScrollView
-                    {...props}
-                    centerContent={this.state.centerContent}
-                    pinchGestureEnabled={false}
-                />}
+                // renderScrollComponent={(props) => <ScrollView
+                //     {...props}
+                //     centerContent={this.state.centerContent}
+                //     pinchGestureEnabled={false}
+                // />}
                 initialScrollIndex={this.props.page < 1 ? 0 : this.props.page - 1}
                 onViewableItemsChanged={this._onViewableItemsChanged}
                 viewabilityConfig={VIEWABILITYCONFIG}
-                onScroll={this._onScroll}
+                scrollEnabled={false}
+                // onScroll={this._onScroll}
                 onContentSizeChange={this._onListContentSizeChange}
             />
         );
@@ -362,13 +363,13 @@ export default class PdfView extends Component {
     render() {
 
         return (
-            <PinchZoomView
+            <View
                 style={styles.container}
                 onLayout={this._onLayout}
-                onScaleChanged={this._onScaleChanged}
+                // onScaleChanged={this._onScaleChanged}
             >
                 {this.state.pdfLoaded && this._renderList()}
-            </PinchZoomView>
+            </View>
         );
 
     }

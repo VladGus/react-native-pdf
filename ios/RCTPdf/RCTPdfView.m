@@ -267,9 +267,24 @@ const float MIN_SCALE = 1.0f;
     
     if (_pdfDocument) {
         unsigned long numberOfPages = _pdfDocument.pageCount;
-        PDFPage *page = [_pdfDocument pageAtIndex:0];
-        CGSize pageSize = [_pdfView rowSizeForPage:page];
-        _onChange(@{ @"message": [[NSString alloc] initWithString:[NSString stringWithFormat:@"loadComplete|%lu|%f|%f", numberOfPages, pageSize.width, pageSize.height]]});
+        float height = 0;
+        float width = 0;
+        for (int i = 0; i < numberOfPages; i++)
+        {
+            PDFPage *page = [_pdfDocument pageAtIndex:i];
+            CGRect pdfPageRect = [page boundsForBox:kPDFDisplayBoxMediaBox];
+            height = height + pdfPageRect.size.height;
+            if (pdfPageRect.size.width > width) {
+                width = pdfPageRect.size.width;
+            }
+            // CGSize pageSize = [_pdfView rowSizeForPage:page];
+            // height = height + pageSize.height + _pdfView.pageBreakMargins;
+            // if (pageSize.width > width) {
+            //     width = pageSize.width;
+            // }
+        }
+        
+        _onChange(@{ @"message": [[NSString alloc] initWithString:[NSString stringWithFormat:@"loadComplete|%lu|%f|%f", numberOfPages, width, height]]});
     }
 
 }
@@ -331,14 +346,14 @@ const float MIN_SCALE = 1.0f;
 - (void)handleSingleTap:(UITapGestureRecognizer *)sender
 {
 
-    _scale = _pdfView.minScaleFactor/_fixScaleFactor;
-    _pdfView.scaleFactor = _pdfView.minScaleFactor;
+    // _scale = _pdfView.minScaleFactor/_fixScaleFactor;
+    // _pdfView.scaleFactor = _pdfView.minScaleFactor;
     
     CGPoint point = [sender locationInView:self];
     PDFPage *pdfPage = [_pdfView pageForPoint:point nearest:NO];
     if (pdfPage) {
         unsigned long page = [_pdfDocument indexForPage:pdfPage];
-        _onChange(@{ @"message": [[NSString alloc] initWithString:[NSString stringWithFormat:@"pageSingleTap|%lu", page+1]]});
+        _onChange(@{ @"message": [[NSString alloc] initWithString:[NSString stringWithFormat:@"pageSingleTap|%lu|%f|%f", page+1, point.x, point.y]]});
     }
     
     [self setNeedsDisplay];

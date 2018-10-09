@@ -318,7 +318,7 @@ export default class Pdf extends Component {
     _onChange = (event) => {
 
         let message = event.nativeEvent.message.split('|');
-        //__DEV__ && console.log("onChange: " + message);
+        __DEV__ && console.log("onChange: " + message);
         if (message.length > 0) {
             if (message[0] === 'loadComplete') {
                 this.props.onLoadComplete && this.props.onLoadComplete(Number(message[1]), this.state.path, {
@@ -380,17 +380,17 @@ export default class Pdf extends Component {
                     />
                 );
             } else if (Platform.OS === "ios") {
-                if (this.state.isSupportPDFKit === 1) {
-                    return (
-                        <PdfCustom
-                            ref={component => (this._root = component)}
-                            {...this.props}
-                            style={[{backgroundColor: '#EEE'}, this.props.style]}
-                            path={this.state.path}
-                            onChange={this._onChange}
-                        />
-                    );
-                } else if (this.state.isSupportPDFKit === 0) {
+                // if (this.state.isSupportPDFKit === 1) {
+                //     return (
+                //         <PdfCustom
+                //             ref={component => (this._root = component)}
+                //             {...this.props}
+                //             style={[{backgroundColor: '#EEE'}, this.props.style]}
+                //             path={this.state.path}
+                //             onChange={this._onChange}
+                //         />
+                //     );
+                // } else if (this.state.isSupportPDFKit === 0) {
                     return (
                         <PdfView
                             {...this.props}
@@ -403,9 +403,9 @@ export default class Pdf extends Component {
                             onScaleChanged={this.props.onScaleChanged}
                         />
                     );
-                } else {
-                    return (null);
-                }
+                // } else {
+                    // return (null);
+                // }
             } else {
                 return (null);
             }
